@@ -5,8 +5,8 @@ ADD . /app/
 WORKDIR /app 
 
 
-RUN CGO_ENABLED=1 GOARCH=amd64 GOOS=linux go build -o server main.go
+RUN go build ./main.go
 
-EXPOSE 3333
+EXPOSE 8080
 
-CMD ["./server"]
+CMD ["/app/server"]
