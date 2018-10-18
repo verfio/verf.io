@@ -21,6 +21,32 @@
         <link rel="stylesheet" href="assets/js/aos/aos.css">
 
     </head>
+
+<script>
+    function submitForm() {
+        var formData = new FormData();
+
+        if (document.getElementById('name').value != "") {
+            formData.append('name',document.getElementById('name').value);
+        } 
+
+        if (document.getElementById('email').value != "") {
+            formData.append('email',document.getElementById('email').value);
+        } 
+
+        if (document.getElementById('body').value != "") {
+            formData.append('body',document.getElementById('body').value);
+        } 
+                    
+        var request = new XMLHttpRequest();
+        request.open("POST", "/webhooks/send", true);
+        
+        request.send(formData);
+    }
+
+
+</script>
+
     <body>
         <!-- Pageloader -->
         <div class="pageloader is-theme"></div>
@@ -1626,24 +1652,24 @@
                         <div class="columns">
                             <div class="column is-6 is-offset-3">
                                 <!-- Form -->
-                                <form class="contact-form" action="/webhooks/send" method="Post">
+                                <form class="contact-form">
                                     <!-- Field -->
                                     <div class="control-material is-secondary">      
-                                        <input class="material-input " type="text" required name="Name">
+                                        <input class="material-input " type="text" required id="name">
                                         <span class="material-highlight"></span>
                                         <span class="bar"></span>
                                         <label>Name</label>
                                     </div>
                                     <!-- Field -->
                                     <div class="control-material is-secondary">      
-                                        <input class="material-input " type="email" required name="email">
+                                        <input class="material-input " type="email" required id="email">
                                         <span class="material-highlight"></span>
                                         <span class="bar"></span>
                                         <label>Email</label>
                                     </div>
                                     <!-- Field -->
                                     <div class="control-material is-secondary">  
-                                        <textarea rows="3" name="body"></textarea>
+                                        <textarea rows="3" id="body"></textarea>
                                         <span class="material-highlight"></span>
                                         <span class="bar"></span>
                                         <label>Message </label>
@@ -1651,7 +1677,7 @@
         
                                     <!-- Submit -->
                                     <div class="has-text-centered">
-                                        <button class="button is-button k-button k-primary raised has-gradient is-fat is-bold is-submit">
+                                        <button class="button is-button k-button k-primary raised has-gradient is-fat is-bold is-submit" onclick="submitForm();">
                                             <span class="text">Send message</span>
                                             <span class="front-gradient"></span>
                                         </button>

@@ -81,13 +81,13 @@ func sendMail(w http.ResponseWriter, r *http.Request) {
 
 	var body string
 
-	if err := r.ParseForm(); err != nil {
+	if err := r.ParseMultipartForm(0); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
 		return
 	}
 
 	if r.FormValue("body") != "" {
-		body = r.FormValue("body") + " name: " + "\r\n" + r.FormValue("my name") + " email: " + r.FormValue("my email")
+		body = r.FormValue("body") + "\r\n" + " my name: " + r.FormValue("name") + " my email: " + r.FormValue("email")
 	} else {
 		body = "hello"
 	}
