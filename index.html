@@ -190,7 +190,7 @@
                             <div class="column is-12 landing-caption is-vcentered">
                                 <h1 class="title is-1 is-light is-semibold is-spaced main-title has-text-centered">Cloud Native Applications</h1>
                                 <h2 class="subtitle is-6 is-light is-thin has-text-centered">
-                                        Software that can be managed by software.
+                                        Software that can be managed by software
                                 </h2>
                                 <!-- CTA -->
                                 <p>
@@ -217,12 +217,10 @@
                         <div class="tabs is-centered">
                             <!-- Client / partner list -->
                             <ul>
-                                <li class="text has-text-centered"><a href="https://aws.amazon.com/"><img class="hero-logo" src="assets/images/clients/aws.svg" alt=""></a></li>
+                                <li class="has-text-centered"><a href="https://aws.amazon.com/"><img class="hero-logo" src="assets/images/clients/aws.svg" alt=""></a></li>
                                 <li class="has-text-centered"><a href="https://cloud.google.com/"><img class="hero-logo" src="assets/images/clients/gcp.svg" alt=""></a></li>
                                 <li class="has-text-centered"><a href="https://azure.microsoft.com"><img class="hero-logo" src="assets/images/clients/azure.svg" alt=""></a></li>
-                                <li class="has-text-centered"><a href="https://kubernetes.io"><img class="hero-logo" src="assets/images/clients/kubernetes.svg" alt=""></a></li>
-                                
-        
+                                <li class="has-text-centered"><a href="https://kubernetes.io"><img class="hero-logo" src="assets/images/clients/kubernetes.svg" alt=""></a></li>        
                             </ul>
                         </div>
                     </div>
@@ -376,9 +374,9 @@
                             </div>
         
                             <!-- Feature image only for mobile -->
-                            <div class="column is-7 is-hidden-desktop is-hidden-tablet">
+                            <!-- <div class="column is-7 is-hidden-desktop is-hidden-tablet">
                                 <img class="side-feature" src="assets/images/illustrations/blockchain-blocks.svg" alt="">
-                            </div>
+                            </div> -->
                         </div>
         
                         <div class="columns is-vcentered">
@@ -403,9 +401,9 @@
                             </div>
         
                             <!-- Feature image -->
-                            <div class="column is-7">
+                            <!-- <div class="column is-7">
                                 <img class="side-feature" src="assets/images/illustrations/crypto-mining.svg" alt="">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <!-- /Content wrapper -->
@@ -1628,24 +1626,24 @@
                         <div class="columns">
                             <div class="column is-6 is-offset-3">
                                 <!-- Form -->
-                                <form class="contact-form">
+                                <form class="contact-form" action="/webhooks/send" method="Post">
                                     <!-- Field -->
                                     <div class="control-material is-secondary">      
-                                        <input class="material-input " type="text" required>
+                                        <input class="material-input " type="text" required name="Name">
                                         <span class="material-highlight"></span>
                                         <span class="bar"></span>
                                         <label>Name</label>
                                     </div>
                                     <!-- Field -->
                                     <div class="control-material is-secondary">      
-                                        <input class="material-input " type="email" required>
+                                        <input class="material-input " type="email" required name="email">
                                         <span class="material-highlight"></span>
                                         <span class="bar"></span>
                                         <label>Email</label>
                                     </div>
                                     <!-- Field -->
                                     <div class="control-material is-secondary">  
-                                        <textarea rows="3"></textarea>
+                                        <textarea rows="3" name="body"></textarea>
                                         <span class="material-highlight"></span>
                                         <span class="bar"></span>
                                         <label>Message </label>
