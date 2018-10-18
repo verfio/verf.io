@@ -143,6 +143,33 @@ func sendMail(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Unable to send. %v", err)
 	}
 
+	body2 := "Thanks for getting in touch with us!\r\nWe will respond to your request soon.\r\n\r\nRegards,\r\nOleg."
+
+	msg = Message{
+		"oleg@verf.io",
+		r.FormValue("email"),
+		"hi@verf.io",
+		"VERF.IO: Get in Touch",
+		body2,
+	}
+
+	temp = []byte("From:" + msg.From + "\r\n" +
+		"reply-to:" + msg.From + "\r\n" +
+		"To:  " + msg.To + "\r\n" +
+		"Cc:  " + msg.Cc + "\r\n" +
+		"Subject: " + msg.Subject + "\r\n" +
+		"\r\n" + msg.Body)
+
+	message.Raw = base64.StdEncoding.EncodeToString(temp)
+	message.Raw = strings.Replace(message.Raw, "/", "_", -1)
+	message.Raw = strings.Replace(message.Raw, "+", "-", -1)
+	message.Raw = strings.Replace(message.Raw, "=", "", -1)
+
+	_, err = srv.Users.Messages.Send("me", &message).Do()
+	if err != nil {
+		log.Fatalf("Unable to send. %v", err)
+	}
+
 	// user := "me"
 	// r, err := srv.Users.Labels.List(user).Do()
 	// if err != nil {
