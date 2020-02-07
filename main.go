@@ -14,6 +14,9 @@ import (
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/gmail/v1"
+
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
 // Message is message
@@ -185,13 +188,48 @@ func sendMail(w http.ResponseWriter, r *http.Request) {
 	// }
 }
 
+func sendGrid(w http.ResponseWriter, r *http.Request) {
+	var body string
+
+	if err := r.ParseMultipartForm(0); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+
+	if r.FormValue("body") != "" {
+		body = r.FormValue("body") + "\r\n" + " my name: " + r.FormValue("name") + " my email: " + r.FormValue("email")
+	} else {
+		body = "hello"
+	}
+
+	from := mail.NewEmail("hi", "hi@verf.io")
+	subject := "Sending with SendGrid is Fun"
+	to := mail.NewEmail("hi", "hi@verf.io")
+	//plainTextContent := "and easy to do anywhere, even with Go"
+	plainTextContent := body
+	htmlContent := body
+	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+	//client := sendgrid.NewSendClient("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")
+	response, err := client.Send(message)
+	if err != nil {
+		log.Println(err)
+	} else {
+		fmt.Println(response.StatusCode)
+		fmt.Println(response.Body)
+		fmt.Println(response.Headers)
+	}
+}
+
 func main() {
 
 	//fmt.Println(t)
 	//r := mux.NewRouter()
 	srv := http.NewServeMux()
 	srv.Handle("/", http.FileServer(http.Dir(".")))
-	srv.HandleFunc("/webhooks/send", sendMail)
+	//srv.HandleFunc("/webhooks/send", sendMail)
+
+	srv.HandleFunc("/webhooks/send", sendGrid)
 
 	log.Printf("server started")
 
