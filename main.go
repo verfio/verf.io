@@ -202,7 +202,7 @@ func sendGrid(w http.ResponseWriter, r *http.Request) {
 		body = "hello"
 	}
 
-	from := mail.NewEmail("hi", "hi@verf.io")
+	from := mail.NewEmail("oleg", "oleg@verf.io")
 	subject := "Sending with SendGrid is Fun"
 	to := mail.NewEmail("hi", "hi@verf.io")
 	//plainTextContent := "and easy to do anywhere, even with Go"
