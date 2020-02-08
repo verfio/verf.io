@@ -224,6 +224,18 @@ func sendGrid(w http.ResponseWriter, r *http.Request) {
 }
 
 func mailJet(w http.ResponseWriter, r *http.Request) {
+	var body string
+
+	if err := r.ParseMultipartForm(0); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+
+	if r.FormValue("body") != "" {
+		body = r.FormValue("body") + "\r\n" + " my name: " + r.FormValue("name") + " my email: " + r.FormValue("email")
+	} else {
+		body = "hello"
+	}
 
 	m := mailjet.NewMailjetClient(os.Getenv("MAILJET_PUBLIC_KEY"), os.Getenv("MAILJET_PRIVATE_KEY"))
 	messagesInfo := []mailjet.InfoMessagesV31{
@@ -238,9 +250,9 @@ func mailJet(w http.ResponseWriter, r *http.Request) {
 					Name:  "hi",
 				},
 			},
-			Subject:  "Greetings from Mailjet.",
-			TextPart: "My first Mailjet email",
-			HTMLPart: "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+			Subject:  "get in touch",
+			TextPart: body,
+			HTMLPart: body,
 			CustomID: "AppGettingStartedTest",
 		},
 	}
