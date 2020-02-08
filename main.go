@@ -17,6 +17,8 @@ import (
 
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+
+	mailjet "github.com/mailjet/mailjet-apiv3-go"
 )
 
 // Message is message
@@ -221,6 +223,35 @@ func sendGrid(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func mailJet(w http.ResponseWriter, r *http.Request) {
+
+	m := mailjet.NewMailjetClient(os.Getenv("MAILJET_PUBLIC_KEY"), os.Getenv("MAILJET_PRIVATE_KEY"))
+	messagesInfo := []mailjet.InfoMessagesV31{
+		mailjet.InfoMessagesV31{
+			From: &mailjet.RecipientV31{
+				Email: "oleg@verf.io",
+				Name:  "Oleg",
+			},
+			To: &mailjet.RecipientsV31{
+				mailjet.RecipientV31{
+					Email: "hi@verf.io",
+					Name:  "hi",
+				},
+			},
+			Subject:  "Greetings from Mailjet.",
+			TextPart: "My first Mailjet email",
+			HTMLPart: "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+			CustomID: "AppGettingStartedTest",
+		},
+	}
+	messages := mailjet.MessagesV31{Info: messagesInfo}
+	res, err := m.SendMailV31(&messages)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Data: %+v\n", res)
+}
+
 func main() {
 
 	//fmt.Println(t)
@@ -229,7 +260,8 @@ func main() {
 	srv.Handle("/", http.FileServer(http.Dir(".")))
 	//srv.HandleFunc("/webhooks/send", sendMail)
 
-	srv.HandleFunc("/webhooks/send", sendGrid)
+	//srv.HandleFunc("/webhooks/send", sendGrid)
+	srv.HandleFunc("/webhooks/send", mailJet)
 
 	log.Printf("server started")
 
