@@ -212,7 +212,6 @@ func sendGrid(w http.ResponseWriter, r *http.Request) {
 	htmlContent := body
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
 	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
-	//client := sendgrid.NewSendClient("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")
 	response, err := client.Send(message)
 	if err != nil {
 		log.Println(err)
